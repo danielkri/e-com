@@ -34,6 +34,7 @@ class App extends React.Component {
         });
       }else{
         //setCurrentUser({userAuth});
+        localStorage.clear();
         setCurrentUser(null);
       }
     });
