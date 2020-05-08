@@ -11,23 +11,19 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const port = process.env.PORT || 5000;
 
-try {
-  app.use(compression());
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+app.use(compression());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-  //cross origin requests
-  app.use(cors());
+//cross origin requests
+app.use(cors());
 
-  if (process.nextTick.NODE_END === "production") {
-    app.use(express.static(path.join(__dirname, "client/build")));
+if (process.env.NODE_END === "production") {
+  app.use(express.static(path.join(__dirname, "client/build")));
 
-    app.get("*", function (req, res) {
-      res.sendFile(path.join(__dirname, "client/build", "index.html"));
-    });
-  }
-} catch (error) {
-  console.log(error);
+  app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
 }
 
 app.listen(port, (error) => {
